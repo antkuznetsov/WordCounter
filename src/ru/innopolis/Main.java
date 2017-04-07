@@ -6,6 +6,6 @@ public class Main {
 
         WordCounter counter = new WordCounter("text.txt");
 
-        counter.showResultList();
+        //counter.showResultList();
     }
 }

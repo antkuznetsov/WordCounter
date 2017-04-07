@@ -52,6 +52,8 @@ public class WordCounter {
 
             wordsList.add(newWord);
 
+            System.out.println(newWord); // Real-time output
+
         } else {
 
             // Наверное, не оптимально, но по-другому пока не придумал
@@ -60,6 +62,8 @@ public class WordCounter {
             long c = tempWord.getCount() + 1;
             tempWord.setCount(c);
             wordsList.set(tempId, tempWord);
+
+            System.out.println(tempWord); // Real-time output
 
         }
     }
