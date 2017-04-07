@@ -2,7 +2,10 @@ package ru.innopolis;
 
 import ru.innopolis.models.Word;
 
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
+import java.util.Scanner;
 import java.util.Set;
 
 /**
@@ -13,9 +16,31 @@ public class WordCounter {
 
     private ArrayList<Word> wordsList;
 
-    public WordCounter() {
+    public WordCounter(String fileName) {
 
         wordsList = new ArrayList<>(4048);
+
+        try {
+
+            String word;
+            Scanner myText = new Scanner(new File(fileName));
+
+            while (myText.hasNext()) {
+
+                word = myText.next();
+
+                word = word.replaceAll("[^A-Za-zА-Яа-я]", ""); // Clear string
+
+                this.addWord(word); // Add word to collection
+            }
+
+            myText.close();
+
+        } catch (FileNotFoundException e) {
+
+            System.out.println("File not found");
+
+        }
 
     }
 
