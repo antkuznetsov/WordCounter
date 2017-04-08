@@ -12,67 +12,70 @@ import java.util.Set;
  * Created by Kuznetsov on 06/04/2017.
  */
 
-public class WordCounter {
+public class WordCounter implements Runnable {
 
-    private ArrayList<Word> wordsList;
+    //private ArrayList<Word> wordsList;
+
+    Scanner myText;
+    Word w = new Word();
+    String fileName;
+
+    Thread t = new Thread(this, "Counter");
 
     public WordCounter(String fileName) {
 
-        wordsList = new ArrayList<>(4048);
+        this.fileName = fileName;
 
         try {
 
-            String word;
-            Scanner myText = new Scanner(new File(fileName));
-
-            while (myText.hasNext()) {
-
-                word = myText.next();
-
-                word = word.replaceAll("[^A-Za-zА-Яа-я]", ""); // Clear string
-
-                this.addWord(word); // Add word to collection
-            }
-
-            myText.close();
+            myText = new Scanner(new File(fileName));
 
         } catch (FileNotFoundException e) {
 
             System.out.println("File not found");
 
         }
-
+        t.start();
     }
 
-    public void addWord(String value) {
-
-        Word newWord = new Word(value);
-
-        if (!wordsList.contains(newWord)) {
-
-            wordsList.add(newWord);
-
-            System.out.println(newWord); // Real-time output
-
-        } else {
-
-            // Наверное, не оптимально, но по-другому пока не придумал
-            int tempId = wordsList.indexOf(newWord);
-            Word tempWord = wordsList.get(tempId);
-            long c = tempWord.getCount() + 1;
-            tempWord.setCount(c);
-            wordsList.set(tempId, tempWord);
-
-            System.out.println(tempWord); // Real-time output
-
-        }
-    }
-
+    /*
     public void showResultList() {
-        for (Word word : wordsList) {
+
+        ArrayList<Word> wordList = w.getWordsList();
+
+        for (Word word : wordList) {
 
             System.out.println(word);
 
         }
+    }
+    */
+
+    @Override
+    public void run() {
+
+        System.out.println("Поток " + t.getName() + " " + fileName + " начался");
+
+        String word;
+
+        try {
+            while (myText.hasNext()) {
+
+                word = myText.next();
+
+                word = word.replaceAll("[^A-Za-zА-Яа-я]", ""); // Clear string
+
+                w.addWord(word); // Add word to collection
+
+                System.out.println(word);
+            }
+
+            myText.close();
+        } catch (NullPointerException e) {
+            System.out.println("Fuck");
+            e.printStackTrace();
+        }
+
+        System.out.println("Поток " + t.getName() + " " + fileName + " закончился");
     }
 }
