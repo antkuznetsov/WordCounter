@@ -1,30 +1,26 @@
 package ru.innopolis;
 
-import ru.innopolis.models.Word;
-
+import ru.innopolis.models.WordsList;
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.util.ArrayList;
 import java.util.Scanner;
-import java.util.Set;
 
 /**
  * Created by Kuznetsov on 06/04/2017.
  */
 
-public class WordCounter implements Runnable {
+public class WordsCounter implements Runnable {
 
-    //private ArrayList<Word> wordsList;
-
-    Scanner myText;
-    Word w = new Word();
-    String fileName;
+    private WordsList list;
+    private Scanner myText;
+    private String fileName;
 
     Thread t = new Thread(this, "Counter");
 
-    public WordCounter(String fileName) {
+    public WordsCounter(String fileName, WordsList list) {
 
         this.fileName = fileName;
+        this.list = list;
 
         try {
 
@@ -38,44 +34,36 @@ public class WordCounter implements Runnable {
         t.start();
     }
 
-    /*
-    public void showResultList() {
-
-        ArrayList<Word> wordList = w.getWordsList();
-
-        for (Word word : wordList) {
-
-            System.out.println(word);
-
-        }
-    }
-    */
-
     @Override
     public void run() {
 
         System.out.println("Поток " + t.getName() + " " + fileName + " начался");
 
-        String word;
-
         try {
             while (myText.hasNext()) {
 
-                word = myText.next();
-
+                String word = myText.next();
                 word = word.replaceAll("[^A-Za-zА-Яа-я]", ""); // Clear string
 
-                w.addWord(word); // Add word to collection
+                try {
 
-                System.out.println(word);
+                    list.addWord(word);
+
+                } catch (NullPointerException e) {
+
+                    System.out.println("Something is wrong");
+
+                }
             }
-
             myText.close();
+
         } catch (NullPointerException e) {
-            System.out.println("Fuck");
-            e.printStackTrace();
+
+            System.out.println("Something is wrong");
+
         }
 
         System.out.println("Поток " + t.getName() + " " + fileName + " закончился");
+
     }
 }

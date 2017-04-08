@@ -1,16 +1,21 @@
 package ru.innopolis;
 
+import ru.innopolis.models.WordsList;
+
 public class Main {
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws InterruptedException {
 
-        WordCounter counter = new WordCounter("text.txt");
-        WordCounter counter2 = new WordCounter("text2.txt");
+        WordsList list = new WordsList(); // Создадим базу слов
 
-        System.out.println("---");
-        //counter.showResultList();
+        WordsCounter counter1 = new WordsCounter("text1.txt", list); // Счетчик по 1 файлу
+        WordsCounter counter2 = new WordsCounter("text2.txt", list); // Счетчик по 2 файлу
+        WordsCounter counter3 = new WordsCounter("text3.txt", list); // Счетчик по 3 файлу
 
-        //System.out.println("-");
-        //counter2.showResultList();
+        counter1.t.join();
+        counter2.t.join();
+        counter3.t.join();
+
+        list.showResultList(); // Покажем итоговый результат
     }
 }
