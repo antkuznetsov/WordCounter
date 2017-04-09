@@ -21,7 +21,7 @@ public class Main {
                 //System.out.println(args[i]);
 
             } else {
-                new WordsCounter(args[i], list);
+                new WordsCounter(args[i], list, false);
                 //System.out.println(args[i]);
             }
 
