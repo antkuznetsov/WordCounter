@@ -18,10 +18,10 @@ public class WordsCounter implements Runnable {
 
     public WordsCounter(String fileName, WordsList list, Boolean link) {
 
-        this.fileName = fileName;
         this.list = list;
+        this.fileName = fileName;
 
-        myText = new DataManager(fileName, link).getText();
+        this.myText = new DataManager(fileName, link).getText();
 
         t.start();
     }

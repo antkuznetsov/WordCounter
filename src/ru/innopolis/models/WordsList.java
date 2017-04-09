@@ -19,19 +19,13 @@ public class WordsList {
 
                 list.put(value, 1); //Если слова нет, добавляем его
 
-                //System.out.println(value); //Real-time output
-
             } else {
 
-                //Если слово есть, обновляем счетчик
-
-                Integer count = list.get(value);
-                list.put(value, count + 1);
-
-                //System.out.println(value); //Real-time output
+                list.put(value, list.get(value) + 1); //Если слово есть, обновляем счетчик
 
             }
 
+            System.out.println(value + " " + list.get(value)); //Real-time output
 
         } catch (NullPointerException e) {
 
