@@ -3,6 +3,7 @@ package ru.innopolis;
 import ru.innopolis.models.WordsList;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 public class Main {
 
@@ -10,25 +11,32 @@ public class Main {
 
         WordsList list = new WordsList(); // Создадим базу слов
 
-        //Получим список файлов
+        ArrayList<WordsCounter> arrCounter = new ArrayList<>();
+
+        // Получим список файлов или ссылок на них
         for (int i = 0; i < args.length; i++) {
 
             // Если начинается с -l, то ссылка
-            if (args[i].startsWith("-l"))
-            {
+            if (args[i].startsWith("-l")) {
+
                 i++;
-                new WordsCounter(args[i], list, true);
-                //System.out.println(args[i]);
+                arrCounter.add(new WordsCounter(args[i], list, true));
 
             } else {
-                new WordsCounter(args[i], list, false);
-                //System.out.println(args[i]);
+
+                arrCounter.add(new WordsCounter(args[i], list, false));
+
             }
 
         }
 
-        Thread.currentThread().sleep(5000);
+        for (WordsCounter counter : arrCounter) {
+
+            counter.t.join();
+
+        }
 
         list.showResultList(); // Покажем итоговый результат
+
     }
 }

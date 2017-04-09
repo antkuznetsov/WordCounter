@@ -59,10 +59,7 @@ public class DataManager {
                 //e.printStackTrace();
 
             }
-
         }
-
-
     }
 
     public Scanner getText() {
