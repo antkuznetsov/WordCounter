@@ -3,6 +3,10 @@ package ru.innopolis;
 import ru.innopolis.models.WordsList;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.Scanner;
 
 /**
@@ -31,6 +35,21 @@ public class WordsCounter implements Runnable {
             System.out.println("File not found");
 
         }
+        t.start();
+    }
+
+    public WordsCounter(String fileName, WordsList list, Boolean link) throws IOException {
+
+        this.fileName = fileName;
+        this.list = list;
+
+        URL url = new URL(fileName);
+
+        // Retrieve the InputStream from the URL
+        InputStream is = url.openStream();
+
+        myText = new Scanner(is);
+
         t.start();
     }
 
