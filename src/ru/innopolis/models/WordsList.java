@@ -44,4 +44,10 @@ public class WordsList {
             System.out.println(entry.getKey() + ": " + entry.getValue());
         }
     }
+
+    public Map<String, Integer> getList() {
+
+        return list;
+
+    }
 }
