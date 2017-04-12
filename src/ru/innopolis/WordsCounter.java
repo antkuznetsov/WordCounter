@@ -28,14 +28,17 @@ public class WordsCounter implements Runnable {
 
     @Override
     public void run() {
-
         System.out.println("Поток " + t.getName() + " " + fileName + " начался");
-
         try {
-            while (myText.hasNext()) {
+            while (myText.hasNext() && !list.isStop()) {
 
                 String word = myText.next();
+
                 word = word.replaceAll("[^A-Za-zА-Яа-я]", ""); // Clear string
+
+                if (word.matches("^[A-Za-z]+$")) {
+                    list.setStop(true);
+                }
 
                 try {
 
@@ -47,15 +50,15 @@ public class WordsCounter implements Runnable {
 
                 }
             }
-            myText.close();
+            if (list.isStop())
+                System.out.println("Встречено английское слово, поток " + t.getName() + " " + fileName + " остановлен!");
 
         } catch (NullPointerException e) {
 
             System.out.println("Something is wrong");
 
         }
-
+        myText.close();
         System.out.println("Поток " + t.getName() + " " + fileName + " закончился");
-
     }
 }

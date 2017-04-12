@@ -11,6 +11,8 @@ public class WordsList {
 
     private Map<String, Integer> list = new HashMap<>();
 
+    private volatile boolean stop = false; // Условие остановки потоков при запрещенном символе
+
     synchronized public void addWord(String value) {
 
         try {
@@ -35,7 +37,7 @@ public class WordsList {
     }
 
     public void showResultList() {
-
+        System.out.print("\n");
         System.out.println("+--------------------+");
         System.out.println("| Итоговый результат |");
         System.out.println("+--------------------+");
@@ -49,5 +51,13 @@ public class WordsList {
 
         return list;
 
+    }
+
+    public boolean isStop() {
+        return stop;
+    }
+
+    public void setStop(boolean stop) {
+        this.stop = stop;
     }
 }
